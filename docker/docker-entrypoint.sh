@@ -21,4 +21,4 @@ chown 8983:8983 /opt/solr/reportek/solr/collection1/data
 # Note: if you specify "solr", you'll typically want to add -f to run it in
 # the foreground.
 
-exec sudo -u $SOLR_USER -H env "PATH=$PATH" sh -c "$@"
+exec sudo -u $SOLR_USER -H PATH=$PATH SOLR_USER=$SOLR_USER SOLR_UID=$SOLR_UID SOLR_GROUP=$SOLR_GROUP SOLR_GID=$SOLR_GID SOLR_HOME=$SOLR_HOME sh -c "$@"
