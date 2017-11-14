@@ -6,7 +6,7 @@ MAINTAINER "EEA: IDM2 C-TEAM" <eea-edw-c-team-alerts@googlegroups.com>
 ARG SOLR_DOWNLOAD_SERVER
 
 RUN apt-get update && \
-  apt-get -y install lsof procps wget gpg && \
+  apt-get -y install lsof procps wget gpg sudo && \
   rm -rf /var/lib/apt/lists/*
 
 ENV SOLR_USER="solr" \
@@ -27,7 +27,7 @@ RUN mkdir -p /opt/solr && \
   tar -C /opt/solr --extract --file /opt/solr.tgz --strip-components=1 && \
   rm /opt/solr.tgz* && \
   rm -Rf /opt/solr/docs/ && \
-  mkdir -p /opt/solr/server/solr/lib /opt/solr/server/logs /docker-entrypoint-initdb.d /opt/docker-solr /opt/solr/reportek && \
+  mkdir -p /opt/solr/server/solr/lib /opt/solr/server/logs /docker-entrypoint-initdb.d /opt/docker-solr /opt/solr/reportek/solr/collection1/data && \
   cp -r /opt/solr/example/* /opt/solr/reportek/ && \
   sed -i -e 's/"\$(whoami)" == "root"/$(id -u) == 0/' /opt/solr/bin/solr && \
   sed -i -e 's/lsof -PniTCP:/lsof -t -PniTCP:/' /opt/solr/bin/solr && \
@@ -40,7 +40,7 @@ RUN chown -R $SOLR_USER:$SOLR_GROUP /opt/docker-solr
 
 EXPOSE 8983
 WORKDIR /opt/solr
-USER $SOLR_USER
+#USER $SOLR_USER
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["solr-foreground"]
